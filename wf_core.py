@@ -4,7 +4,6 @@ data is processed."""
 
 # import wf_dataprocessing
 # import wf_visualization
-
 # # Process the data
 # wf_dataprocessing.process_data()
 # # Generate visuals
