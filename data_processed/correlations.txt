@@ -1,0 +1,4 @@
+                  Age    Income  TurnoutRate
+Age          1.000000 -0.001346     0.013354
+Income      -0.001346  1.000000     0.006562
+TurnoutRate  0.013354  0.006562     1.000000

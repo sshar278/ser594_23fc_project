@@ -143,8 +143,8 @@ CIRCLE. (2022). Youth turnout by race and gender reveals major inequities. Tufts
 FiveThirtyEight. (2024). Election forecasting and polling insights. Retrieved from https://fivethirtyeight.com
 
 
-## Dataset Generality
-TODO
+## Dataset Generality : Todo
+One important purpose of computing summary statistics (and the remaining steps, culminating in the dataset generality item) is to provide a characterization of the distribution of the data you're analyzing. Eventually, you will need to think of this as creating the "evidence" that the distribution of your dataset is representative of the real world, and hence, the results of your work are transferable to the real world.
 
 ## Data Transformations
 ### Transformation N

@@ -71,6 +71,14 @@ with open('ser594_23fc_project\data_processed\summary.txt', 'w') as f:
         f.write(f"  Least frequent category: {stats['least_frequent_category']}\n")
         f.write("\n")
 
-print("Summary statistics saved to 'data_processed/summary.txt'")  
+print("Summary statistics saved to summary.txt")  
 
+#4. Compute pair-wise correlation matrix
+correlation_matrix = merged_df[['Age', 'Income', 'TurnoutRate']].corr()
+with open('ser594_23fc_project\data_processed\correlations.txt', 'w') as f:
+    f.write(correlation_matrix.to_string())
+
+print("Correlation matrix saved to correlations.txt")
+
+#5. Plots of distributions : TODO
 
