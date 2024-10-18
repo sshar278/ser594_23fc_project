@@ -1,0 +1,27 @@
+Quantitative Summary Statistics:
+Age:
+  Min: 21.0
+  Max: 70.0
+  Median: 59.5
+
+Income:
+  Min: 37499.5
+  Max: 124999.5
+  Median: 62499.5
+
+TurnoutRate:
+  Min: 0.2507
+  Max: 0.7920999999999999
+  Median: 0.5305
+
+Qualitative Summary Statistics:
+Ethnicity:
+  Number of categories: 5
+  Most frequent category: {'White': 1174}
+  Least frequent category: {'Asian': 49}
+
+Education:
+  Number of categories: 8
+  Most frequent category: {'Some college, no degree': 437}
+  Least frequent category: {'Less than 9th grade': 8}
+

@@ -107,7 +107,7 @@ df3_selected.to_csv('ser594_23fc_project/data_processed/df3_processed.csv', inde
 
 # Connect to the SQLite database (or create it if it doesn't exist)
 # The merged_data.db file is generateed dynamically everytime when you run this script
-conn = sqlite3.connect('ser594_23fc_project/merged_data.db')
+conn = sqlite3.connect('merged_data.db')
 
 # Save each dataframe into a separate table
 df1_selected.to_sql('table_df1', conn, if_exists='replace', index=False)

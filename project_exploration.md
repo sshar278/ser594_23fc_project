@@ -1,5 +1,7 @@
 #### File to document all progress, findings, and challenges faced. Essential to explain the choices made in data processing and visualization.
 
+### Note : The generated merged_data.db can be viewed using the sqlite db browser. This contains all the cleaned and processed data 
+
 SERX94: Exploratory Data Munging and Visualization
 
 TITLE : Exploring Election Data : Munging and Visual Insights
