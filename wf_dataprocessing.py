@@ -92,6 +92,13 @@ df1_selected = df1[['Age', 'State', 'Income', 'Ethnicity', 'Education']]
 df2_selected = df2[['State', 'Year', 'CandidateVotes', 'TotalVotes', 'PartyAffiliation']]
 df3_selected = df3[['State', 'Year', 'TurnoutRate']]
 
+# Drop any rows with missing values and remove duplicates
+df1_selected.dropna(subset=['Income'], inplace=True)
+df3_selected.dropna(subset=['TurnoutRate'], inplace=True)
+df1_selected.drop_duplicates(inplace=True)
+df2_selected.drop_duplicates(inplace=True)
+df3_selected.drop_duplicates(inplace=True)
+
 # Storing the series of processed data in the data_processed folder
 # In order to verify this, you can first delete the data_processed folder and then run this script
 df1_selected.to_csv('ser594_23fc_project/data_processed/df1_processed.csv', index=False)
@@ -99,6 +106,7 @@ df2_selected.to_csv('ser594_23fc_project/data_processed/df2_processed.csv', inde
 df3_selected.to_csv('ser594_23fc_project/data_processed/df3_processed.csv', index=False)
 
 # Connect to the SQLite database (or create it if it doesn't exist)
+# The merged_data.db file is generateed dynamically everytime when you run this script
 conn = sqlite3.connect('ser594_23fc_project/merged_data.db')
 
 # Save each dataframe into a separate table
