@@ -18,3 +18,5 @@ Some side notes for my personal reference :
     BeautifulSoup4 (beautifulsoup4)
     NLTK (nltk)
     Seaborn (seaborn; this approval does not extend to scipy)
+
+4. Insted of requirements.txt, I might consider generating a docker file for the requirements, so that once a reviewer runs it, it automatically installs all the required libraries in order to successfully run the project
