@@ -2,13 +2,13 @@
 
 SERX94: Exploratory Data Munging and Visualization
 
-Title : Exploring Election Data : Munging and Visual Insights
+TITLE : Exploring Election Data : Munging and Visual Insights
 
-Author : Siddharth Sharma
+AUTHOR : Siddharth Sharma
 
-Date : 21 Oct, 2024
+DATE : 21 Oct, 2024
 
-Basic Questions
+BASIC QUESTIONS : 
 
 Dataset #1 : US Elections Poll 2020 - Qriously.csv
 
@@ -34,7 +34,7 @@ Dataset File Hash : ae4c7a6bc9597384a255f3f12d9fd909
 URL(s) : https://www.brandwatch.com/qriously-data/us-election-poll-week-8-15-19-oct/
 https://public.graphext.com/dbdadf87a5c21695/index.html?section=data 
 
--------------------------------------------------------------------------------------------
+
 
 Dataset #2 : 1976-2020-senate.csv
 
@@ -66,7 +66,7 @@ party_simplified: The simplified party affiliation (e.g., REPUBLICAN, OTHER).
 Dataset File Hash : 8bcb59d61b53a216b2ab4fa368efb4cd
 URL : https://dataverse.harvard.edu/file.xhtml?fileId=7609736&version=7.0&toolType=PREVIEW
 
----------------------------------------------------------------------------------------------
+
 
 Dataset #3 : Turnout_1980_2022_v1.1.csv
 
@@ -94,24 +94,45 @@ VAP_TURNOUT_RATE: The percentage of the Voting Age Population that actually vote
 Dataset File Hash: c2464102ca377a1e591fe73d4de7cd21
 URL : https://election.lab.ufl.edu/dataset/1980-2022-general-election-turnout-rates-v1-1/
 
+
 All three of these datasets are made up of actual data from the real world, so we can use them to gain fresh perspectives on election trends, voter behavior, and turnout. Without having to worry about the constraints that are usually connected with synthetic data, we can utilize these datasets for our analysis with confidence. 
 
-## Interpretable Records
-### Record 1
-**Raw Data:** TODO
 
-Interpretation:** TODO
+INTERPRETABLE RECORDS :
 
-### Record 2
-**Raw Data:** TODO
+### Record 1 (df1_processed.csv)
 
-**Interpretation:** TODO
+Raw Data: 
+  Age          State                Income      Ethnicity Education
+0  55-64        Florida  $100,000 to $149,999     White     Some college, no degree
+1    65+  Massachusetts    $25,000 to $49,999     White     Associate 's degree
 
-Background Domain Knowledge : When attempting to predict elections outcomes, political analysts and policymakers can benefit from using election forecasting. Forecasting helps predict how different voter groups will act in an election by examining a variety of criteria, such as demographic trends, past election results, and public opinion polls. These predictions are now more accurate than ever thanks to recent developments in data science and predictive analytics, which also provide insights into voter tendencies that can affect policy and campaign tactics. 
+Interpretation: These data provide information about respondents' age, income, ethnicity, and education from respondents living in various U.S. states.The first is a Florida native who is between the ages of 55 and 64, has a respectable income, and identifies as White. The second respondent is from Massachusetts, is older, and makes less money. Common variables are important elements in election studies. These records gather basic demographic information that aids in understanding the socioeconomic position and potential voting behavior of these individuals. The data is a legitimate component of the dataset since it is indicative of the overall variation in demographic features across various U.S. regions.
+
+### Record 2 (df2_processed.csv)
+
+Raw Data:
+    State  Year  CandidateVotes  TotalVotes PartyAffiliation
+0  Arizona  1976          321236      741210       REPUBLICAN
+1  Arizona  1976            1565      741210            OTHER
+
+Interpretation: Election results for Arizona's 1976 U.S. Senate contest are available in both records. The first candidate, a member of the Republican Party, garnered a sizable number of votes, whilst the second candidate, a member of a minor or independent party, received a very lesser number.These records serve as a standard for illustrating how major parties garner a greater share of the vote in comparison to smaller, less well-liked candidates. They also aid in the comprehension of the dynamics of electoral rivalry in past elections.
+
+### Record 3 (df3_processed.csv)
+
+Raw Data: 
+ State            Year     TurnoutRate
+0  United States  2022      45.91%
+1        Alabama  2022      37.31%
+
+Interpretation: These records, one of which focuses exclusively on Alabama and the other on the national turnout for the 2022 elections, contain statistics on voter turnout rates.Alabama has a lower turnout rate than the national average, which is somewhat higher. These records aid in demonstrating the various ways that various circumstances might affect voter participation. They make sense for shedding light on variations in voter turnout by region.
+
+
+BACKGROUND DOMAIN KNOWLEDGE : When attempting to predict elections outcomes, political analysts and policymakers can benefit from using election forecasting. Forecasting helps predict how different voter groups will act in an election by examining a variety of criteria, such as demographic trends, past election results, and election turnout rate. These predictions are now more accurate than ever thanks to recent developments in data science and predictive analytics, which also provide insights into voter tendencies that can affect policy and campaign tactics. 
 Firstly, my project includes exploring demographic data. Numerous characteristics, including age, gender, household income and level of education, frequently impact the behavior of voters. For example, younger voters prefer to support candidates who are more progressive, but older voters are more inclined to support conservative policies. According to a Pew Research Center study from 2023, these demographic factors have a significant impact on voter preferences, particularly across US regions. I will be using demographic data from datasets such as the US Elections Poll 2020 in my study. This assist in determining which demographic groupings have the greatest influence on the results of elections in various geographic areas.
 Turnout numbers for elections will also be a crucial component of my analysis. One of the most important variables in deciding the outcome of an election is voter turnout, which is the percentage of eligible voters who actually cast a ballot. Election results can be significantly impacted by lower voter turnout, particularly among younger voters and members of minority groups. Disparities in voter turnout by age, gender, and race continue to be major obstacles to attaining fair participation in elections, according to research by CIRCLE (2022). We can evaluate the relationship between election outcomes and variations in turnout rates among various states and demographic categories by utilizing voter turnout data.
-Furthermore, the analysis of public opinion in my project will look at how support for candidates varies over time. Public opinion frequently shifts in reaction to political, social, and economic developments. Erikson and Wlezien (2020) discovered that polling data, particularly in hotly contested elections, when paired with economic variables provides a credible forecast of electoral outcomes.
-In summary, the VoteSense project integrates data from several sources, such as voter participation, demographics, and public opinion, in an effort to create a comprehensive model for election forecasting. This can offer deeper insights into how many factors—from age and income to turnout rates and candidate popularity—affect election outcomes by utilizing these data points. As demonstrated by FiveThirtyEight (2024), recent developments in data science coupled with the growing accessibility of election-related data allow for the creation of increasingly precise models to forecast future election outcomes.
+Initially in my project proposal, I was also planning to include to latest opinion polls data but I was concerned that doing so may introduce potential bias and unreliability in our data since polls usually have margin of error.
+In summary, the VoteSense project integrates data from several sources, such as voter participation, demographics, and turnout rate, in an effort to create a comprehensive model for election forecasting. This can offer deeper insights into how many factors—from age and income to turnout rates and candidate popularity—affect election outcomes by utilizing these data points. As demonstrated by FiveThirtyEight (2024), recent developments in data science coupled with the growing accessibility of election-related data allow for the creation of increasingly precise models to forecast future election outcomes.
 
 References :  
 Pew Research Center. (2023, July 12). Voting patterns in the 2022 elections. Pew Research Center. Retrieved from https://www.pewresearch.org/politics/2023/07/12/voting-patterns-in-the-2022-elections/

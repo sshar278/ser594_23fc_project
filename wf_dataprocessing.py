@@ -5,6 +5,7 @@ processed data in the data_processed folder
 import pandas as pd
 import sqlite3
 import re
+import numpy as np
 
 # Loading the datasets
 df1 = pd.read_csv('ser594_23fc_project\\data_original\\US Elections Poll 2020 - Qriously.csv')
@@ -52,6 +53,34 @@ def clean_state(state_name):
         return cleaned
     return state_name
 
+# Functions for Age, Income, and Turnout Rate conversion
+def convert_age_to_midpoint(age_range):
+    if isinstance(age_range, str) and '-' in age_range:
+        parts = age_range.split('-')
+        return (int(parts[0]) + int(parts[1])) / 2
+    elif isinstance(age_range, str) and '+' in age_range:
+        return int(age_range.replace('+', '')) + 5
+    return np.nan
+
+def convert_income_to_midpoint(income_range):
+    if isinstance(income_range, str) and 'to' in income_range:
+        income_range = income_range.replace('$', '').replace(',', '')
+        parts = income_range.split(' to ')
+        return (int(parts[0]) + int(parts[1])) / 2
+    elif isinstance(income_range, str) and 'or more' in income_range:
+        return int(income_range.replace('$', '').replace(',', '').replace(' or more', '')) + 25000
+    return np.nan
+
+def convert_percentage_to_float(percentage):
+    if isinstance(percentage, str):
+        return float(percentage.replace('%', '')) / 100
+    return np.nan
+
+# Apply the conversion to the Age, Income, and TurnoutRate columns
+df1['Age'] = df1['Age'].apply(convert_age_to_midpoint)
+df1['Income'] = df1['Income'].apply(convert_income_to_midpoint)
+df3['TurnoutRate'] = df3['TurnoutRate'].apply(convert_percentage_to_float)
+
 
 # Apply the cleaning function to the State column for all three datasets
 df1['State'] = df1['State'].apply(clean_state)
@@ -70,7 +99,7 @@ df2_selected.to_csv('ser594_23fc_project/data_processed/df2_processed.csv', inde
 df3_selected.to_csv('ser594_23fc_project/data_processed/df3_processed.csv', index=False)
 
 # Connect to the SQLite database (or create it if it doesn't exist)
-conn = sqlite3.connect('merged_data.db')
+conn = sqlite3.connect('ser594_23fc_project/merged_data.db')
 
 # Save each dataframe into a separate table
 df1_selected.to_sql('table_df1', conn, if_exists='replace', index=False)
