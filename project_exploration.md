@@ -1,6 +1,6 @@
 #### File to document all progress, findings, and challenges faced. Essential to explain the choices made in data processing and visualization.
 
-### Note : The generated merged_data.db can be viewed using the sqlite db browser. This contains all the cleaned and processed data 
+### Note : The generated merged_data.db can be viewed using the sqlite db browser. This contains all the cleaned and processed data. Also run the core.py file in order to view each and every result
 
 SERX94: Exploratory Data Munging and Visualization
 
@@ -143,8 +143,8 @@ CIRCLE. (2022). Youth turnout by race and gender reveals major inequities. Tufts
 FiveThirtyEight. (2024). Election forecasting and polling insights. Retrieved from https://fivethirtyeight.com
 
 
-## Dataset Generality : Todo
-One important purpose of computing summary statistics (and the remaining steps, culminating in the dataset generality item) is to provide a characterization of the distribution of the data you're analyzing. Eventually, you will need to think of this as creating the "evidence" that the distribution of your dataset is representative of the real world, and hence, the results of your work are transferable to the real world.
+DATASET GENERALITY : The dataset is highly reflective of real-world electoral behavior, supported by both its statistical features and logical alignment. Quantitative variables like age, income, and voter turnout present realistic distributions. For instance, the age range of 21 to 70 years, with a median of 59.5, accurately represents voting demographics, where older individuals typically have higher turnout. The income range from $37,499.5 to $124,999.5 aligns with middle-class incomes, historically tied to political participation. Turnout rates, from 25.07% to 79.21%, capture the variability of voter engagement across states.The qualitative variables, such as ethnicity and education, further enhance the dataset’s real-world representativeness. Ethnicity data, with five categories where White is the most frequent (1174) and Asian the least (49), reflects actual demographic distributions in U.S. elections. This diversity mirrors the true voting population. Additionally, the correlation matrix shows realistic relationships, such as weak or moderate correlations between income and turnout, reflecting the complex factors that shape voter participation.This combination of representative statistics and correlations ensures that the dataset offers a well-rounded view of real-world voting patterns, making it suitable for deriving insights that are applicable to real-world election scenarios.
+
 
 ## Data Transformations
 ### Transformation N
