@@ -4,6 +4,15 @@ data is processed."""
 
 import subprocess
 import os
+import sys
+
+print("Installing dependencies from requirements.txt...")
+try:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+    print("Dependencies installed successfully!")
+except subprocess.CalledProcessError as e:
+    print("Failed to install dependencies. Error:", e)
+    sys.exit(1)
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
