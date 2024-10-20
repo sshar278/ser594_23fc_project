@@ -1,6 +1,7 @@
 #### File to document all progress, findings, and challenges faced. Essential to explain the choices made in data processing and visualization.
 
-### Note : The generated merged_data.db can be viewed using the sqlite db browser. This contains all the cleaned and processed data. Also run the core.py file in order to view each and every result
+### Instructions on running this project : 
+Just run the wf_core.py file, it contains the subprocess to run both the wf_dataprocessing.py and then wf_visualization.py. A merged_data.db file will be generated which contains all the processed and cleaned data (this file can be viewed in the sqlite db browser). apart from that, the correlation.txt, summary.txt and the other processed data files get stored in the data_processed folder. And finally the visuals get stored inside the visuals folder. I will also be adding a video demo of mine showing the whole project run.
 
 SERX94: Exploratory Data Munging and Visualization
 

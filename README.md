@@ -3,7 +3,7 @@ This repository contains files for the individual course project in COURSE SER59
 
 At this time, this project has not been cleared by the course staff (R. Acuna) for public release, and must be kept within a private repository. 
 
-Some side notes for my personal reference :  
+# Some side notes for my personal reference :  
 
 1. Command to generate the requirements.txt file : pipreqs . --force 
 

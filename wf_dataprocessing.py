@@ -6,11 +6,19 @@ import pandas as pd
 import sqlite3
 import re
 import numpy as np
+import os
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+data_original_dir = os.path.join(base_dir, 'data_original')
+df1_path = os.path.join(data_original_dir, 'US Elections Poll 2020 - Qriously.csv')
+df2_path = os.path.join(data_original_dir, '1976-2020-senate.csv')
+df3_path = os.path.join(data_original_dir, 'Turnout_1980_2022_v1.1.csv')
 
 # Loading the datasets
-df1 = pd.read_csv('ser594_23fc_project\\data_original\\US Elections Poll 2020 - Qriously.csv')
-df2 = pd.read_csv('ser594_23fc_project\\data_original\\1976-2020-senate.csv')
-df3 = pd.read_csv('ser594_23fc_project\\data_original\\Turnout_1980_2022_v1.1.csv')
+df1 = pd.read_csv(df1_path)
+df2 = pd.read_csv(df2_path)
+df3 = pd.read_csv(df3_path)
 
 # Rename columns to match for merging on the 'State' field
 df1.rename(columns={'How old are you?': 'Age'}, inplace=True)
@@ -26,7 +34,7 @@ df3.rename(columns={'STATE': 'State'}, inplace=True)
 df3.rename(columns={'YEAR': 'Year'}, inplace=True)
 df3.rename(columns={'VEP_TURNOUT_RATE': 'TurnoutRate'}, inplace=True)
 
-
+# State Abbreviation Map
 state_abbreviation_map = {
     'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
     'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia',
@@ -40,16 +48,13 @@ state_abbreviation_map = {
     'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming'
 }
 
-# Function to clean and format state names in order to properly merge the datasets
+# Function to clean and format state names
 def clean_state(state_name):
     if isinstance(state_name, str):
         cleaned = re.sub(r'[^A-Za-z\s]', '', state_name)
-
         if cleaned in state_abbreviation_map:
             cleaned = state_abbreviation_map[cleaned]
-
         cleaned = cleaned.title().strip()
-
         return cleaned
     return state_name
 
@@ -81,7 +86,6 @@ df1['Age'] = df1['Age'].apply(convert_age_to_midpoint)
 df1['Income'] = df1['Income'].apply(convert_income_to_midpoint)
 df3['TurnoutRate'] = df3['TurnoutRate'].apply(convert_percentage_to_float)
 
-
 # Apply the cleaning function to the State column for all three datasets
 df1['State'] = df1['State'].apply(clean_state)
 df2['State'] = df2['State'].apply(clean_state)
@@ -99,15 +103,18 @@ df1_selected.drop_duplicates(inplace=True)
 df2_selected.drop_duplicates(inplace=True)
 df3_selected.drop_duplicates(inplace=True)
 
-# Storing the series of processed data in the data_processed folder
-# In order to verify this, you can first delete the data_processed folder and then run this script
-df1_selected.to_csv('ser594_23fc_project/data_processed/df1_processed.csv', index=False)
-df2_selected.to_csv('ser594_23fc_project/data_processed/df2_processed.csv', index=False)
-df3_selected.to_csv('ser594_23fc_project/data_processed/df3_processed.csv', index=False)
+# Save processed data in the 'data_processed' folder
+data_processed_dir = os.path.join(base_dir, 'data_processed')
+if not os.path.exists(data_processed_dir):
+    os.makedirs(data_processed_dir)
+
+df1_selected.to_csv(os.path.join(data_processed_dir, 'df1_processed.csv'), index=False)
+df2_selected.to_csv(os.path.join(data_processed_dir, 'df2_processed.csv'), index=False)
+df3_selected.to_csv(os.path.join(data_processed_dir, 'df3_processed.csv'), index=False)
 
 # Connect to the SQLite database (or create it if it doesn't exist)
-# The merged_data.db file is generateed dynamically everytime when you run this script
-conn = sqlite3.connect('merged_data.db')
+db_path = os.path.join(base_dir, 'merged_data.db')
+conn = sqlite3.connect(db_path)
 
 # Save each dataframe into a separate table
 df1_selected.to_sql('table_df1', conn, if_exists='replace', index=False)
@@ -117,8 +124,6 @@ df3_selected.to_sql('table_df3', conn, if_exists='replace', index=False)
 # Close the database connection
 conn.close()
 
-print("Data has been cleaned and saved into three separate tables: 'table_df1', 'table_df2', and 'table_df3' in 'merged_data.db' as well as eparate CSV files in the 'data_processed' folder.")
-
-
+print("Data has been cleaned and saved into three separate tables: 'table_df1', 'table_df2', and 'table_df3' in 'merged_data.db', and separate CSV files in the 'data_processed' folder.")
 
 
