@@ -20,3 +20,6 @@ At this time, this project has not been cleared by the course staff (R. Acuna) f
     Seaborn (seaborn; this approval does not extend to scipy)
 
 4. Insted of requirements.txt, I might consider generating a docker file for the requirements, so that once a reviewer runs it, it automatically installs all the required libraries in order to successfully run the project
+
+
+# Steps to run my project are given at the top of the project_exploration.md file
