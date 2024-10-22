@@ -157,7 +157,7 @@ DATA TRANSFORMATIONS :
 
 Transformation 1 : Age Midpoint Conversion
 Description: Age ranges were converted into midpoints (e.g., '55-64' to 59.5). Open-ended ranges like '65+' were adjusted by adding a constant.
-Soundness Justification: This transformation allows the age range to be treated as a continuous variable for statistical analysis, without losing the context of the age group. Simplifies analysis while maintaining the representation of voters’ age groups. It doesn’t introduce outliers.
+Soundness Justification: This transformation allows the age range to be treated as a continuous variable for statistical analysis, without losing the meaning of the age group. Simplifies analysis while maintaining the representation of voters’ age groups. It doesn’t introduce outliers.
 
 Transformation 2 : Income Range Midpoint Conversion
 Description: Income ranges (e.g., "$50,000 to $99,999") were converted to their midpoints (e.g., $74,999.5).
@@ -177,7 +177,7 @@ Soundness Justification : Ensures quality of data without discarding unique valu
 
 Transformation 6 : Merging DataFrames on State
 Description : The three datasets were merged based on the "State" column, combining demographic, voting, and turnout data into a unified dataset.
-Soundness Justification : essential for integrating related information and conducting comprehensive analysis.This operation is crucial for analysis and does not distort any data.
+Soundness Justification : essential for integrating related information and comprehensive visualization analysis.This operation is crucial for analysis and does not distort any data.
 
 Transformation 7 : State Name Standardization
 Description : State names were standardized bconverting state abbreviations to full names.
@@ -187,8 +187,33 @@ Transformation 8 : State Encoding for Scatter Plots
 Description : State names were encoded numerically to facilitate graphical visualization
 Soundness Justification : This transformation is needed for graphing and does not change the content or meaning of the dataset. 
 
-## Visualizations
-### Visual N
-**Analysis:** TODO
+VISUALIZATIONS : 
 
-(duplicate above as many times as needed; remove this line when done)
+Visual 1: 3D Scatter - Age vs Income by State
+Analysis: Age and income are distributed relatively evenly across states, with no strong correlation between age and income. 
+Each state shows variability, but overall, income levels appear consistent across different age groups.
+
+Visual 2: 3D Scatter - Age vs Turnout Rate by State
+Analysis: The majority of states show a trend toward increased voter turnout rates among older people. The constant color 
+gradient across states indicates that turnout rises consistently with age.
+ 
+Visual 3: Scatter Plot - Age vs Income (colored by state)
+Analysis: There is no discernible trend in the income distribution among age groups; income levels stay constant throughout age groups. Age and income do not 
+significantly correlate within or between states.
+
+Visual 4: Scatter Plot - Age vs Turnout Rate (colored by state)
+Analysis: Given that higher voting rates are typically found in older age groups, voter turnout obviously rises with age. 
+Although there are modest regional variations in turnout, this tendency is constant across states.
+
+Visual 5: Histogram - Ethnicity Distribution
+Analysis: As is typical of the U.S. population, the majority of participants are White, with smaller groups of Black/African American 
+and Hispanic/Latino following.
+
+Visual 6: Histogram - State Distribution
+Analysis: With larger sample numbers, California, New York, and Florida predominate in the dataset, whilst smaller states like Vermont and Wyoming are underrepresented. The population sizes of these states are 
+consistent with this distribution.
+
+Visual 7: Scatter Plot - Income vs Turnout Rate (colored by state)
+Analysis: The turnout rate and income do not appear to be correlated. There is still variation in turnout rates across 
+all income classes, with certain states exhibiting both high and low turnout rates.
+
