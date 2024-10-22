@@ -102,7 +102,8 @@ with open(correlation_path, 'w') as f:
 
 print(f"Correlation matrix saved to {correlation_path}")
 
-# 3. Generate scatter plots for all pairs of quantitative features
+# 3. Generate plots for quantitative and qualitative features
+
 def add_noise(series, noise_level=0.04):
     return series + np.random.normal(0, noise_level, len(series))
 
@@ -112,6 +113,7 @@ quantitative_features = ['Age', 'Income', 'TurnoutRate']
 unique_states = merged_df['State'].unique()
 state_color_map = {state: i for i, state in enumerate(unique_states)}
 
+# Scatter plots for quantitative features
 for i in range(len(quantitative_features)):
     for j in range(i + 1, len(quantitative_features)):
         feature_x = quantitative_features[i]
@@ -132,8 +134,7 @@ for i in range(len(quantitative_features)):
         plt.savefig(scatter_plot_path)
         plt.close()
 
-# 4. Generate 3D scatter plots
-# Scatter Plot: Age vs Income with State as Z-axis
+# 3D scatter plots
 fig = plt.figure(figsize=(10, 7))
 ax = fig.add_subplot(111, projection='3d')
 ax.scatter(merged_df['Age'], merged_df['Income'], merged_df['State_numeric'], c=merged_df['Income'], cmap='viridis', s=50)
@@ -143,7 +144,6 @@ ax.set_zlabel('State (encoded)')
 ax.set_title('3D Scatter: Age vs Income by State')
 plt.savefig(os.path.join(visuals_dir, '3d_age_income_state.png'))
 
-# Scatter Plot: Age vs TurnoutRate with State as Z-axis
 fig = plt.figure(figsize=(10, 7))
 ax = fig.add_subplot(111, projection='3d')
 ax.scatter(merged_df['Age'], merged_df['TurnoutRate'], merged_df['State_numeric'], c=merged_df['TurnoutRate'], cmap='plasma', s=50)
@@ -153,8 +153,7 @@ ax.set_zlabel('State (encoded)')
 ax.set_title('3D Scatter: Age vs Turnout Rate by State')
 plt.savefig(os.path.join(visuals_dir, '3d_age_turnout_rate.png'))
 
-# 5. Generate histograms for qualitative features (Ethnicity and Education)
-# Histogram for State Distribution
+# Generate histograms for qualitative features (Ethnicity and Education)
 plt.figure(figsize=(10, 6))
 merged_df['State'].value_counts().plot(kind='bar', color='c')
 plt.title('State Distribution')
@@ -164,7 +163,6 @@ plt.xticks(rotation=45, ha='right')
 plt.tight_layout(pad=2)
 plt.savefig(os.path.join(visuals_dir, 'histogram_state.png'))
 
-# Histogram for Ethnicity Distribution
 plt.figure(figsize=(10, 6))
 df1_selected['Ethnicity'].value_counts().plot(kind='bar', color='orange')
 plt.title('Ethnicity Distribution')

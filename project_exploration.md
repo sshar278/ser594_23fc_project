@@ -1,8 +1,14 @@
 #### File to document all progress, findings, and challenges faced. Essential to explain the choices made in data processing and visualization.
 
 ### Instructions on running this project : 
-Just run the wf_core.py file (on terminal write python wf_core.py), it contains the subprocess to run both the wf_dataprocessing.py and then wf_visualization.py. A merged_data.db file will be generated which contains all the processed and cleaned data (this file can be viewed in the sqlite db browser). apart from that, the correlation.txt, summary.txt and the processed data files get stored in the data_processed folder. And finally the visuals get stored inside the visuals folder. I will also be adding a video demo of mine showing the whole project run, where initially only the original data files, plus the .py files for core,dataprocessing and visualization are present and you can verify through the video that my code is actually producing those results that I will be providing. 
-Just make sure that you have all the same versions of the python libraries as per defined in the requirements.txt file in order to run the project. Also if I do include a docker file having all the dependencies, then you can simply run that and it will automatically installall the dependencies in order to successfully run the project
+1. Extract the zip and open the project folder with the IDE of your choice. 
+2. Navigate to the directory where the requirements.txt file is located (cd ser594_23fc_project-master)
+3. Creating a virtual environment : In terminal -> python -m venv venv (this creates a folder venv in the directory)
+4. Activate the virtual environment : type in terminal venv\Scripts\activate and press enter
+5. In the terminal, type python wf_core.py. This includes the code to first install all the project dependencies, plus contains the subprocess to run both the wf_dataprocessing.py and then wf_visualization.py. A merged_data.db file will be generated which contains all the processed and cleaned data (this file can be viewed in the sqlite db browser). apart from that, the correlation.txt, summary.txt and the processed data files get stored in the data_processed folder. And finally the visuals get stored inside the visuals folder.
+6. I have added a video demo run of my whole project run, where initially only the original data files, plus the .py files for core,dataprocessing and visualization are present and you can verify through the video that my code is actually producing those results that I will be providing. 
+7. Once you are done, you can type deactivate in the the terminal in order to exit the virtual environment
+
 
 SERX94: Exploratory Data Munging and Visualization
 
