@@ -153,15 +153,39 @@ FiveThirtyEight. (2024). Election forecasting and polling insights. Retrieved fr
 
 DATASET GENERALITY : The dataset is highly reflective of real-world electoral behavior, supported by both its statistical features and logical alignment. Quantitative variables like age, income, and voter turnout present realistic distributions. For instance, the age range of 21 to 70 years, with a median of 59.5, accurately represents voting demographics, where older individuals typically have higher turnout. The income range from $37,499.5 to $124,999.5 aligns with middle-class incomes, historically tied to political participation. Turnout rates, from 25.07% to 79.21%, capture the variability of voter engagement across states.The qualitative variables, such as ethnicity and education, further enhance the dataset’s real-world representativeness. Ethnicity data, with five categories where White is the most frequent (1174) and Asian the least (49), reflects actual demographic distributions in U.S. elections. This diversity mirrors the true voting population. Additionally, the correlation matrix shows realistic relationships, such as weak or moderate correlations between income and turnout, reflecting the complex factors that shape voter participation.This combination of representative statistics and correlations ensures that the dataset offers a well-rounded view of real-world voting patterns, making it suitable for deriving insights that are applicable to real-world election scenarios.
 
+DATA TRANSFORMATIONS : 
 
-## Data Transformations
-### Transformation N
-**Description:** TODO
+Transformation 1 : Age Midpoint Conversion
+Description: Age ranges were converted into midpoints (e.g., '55-64' to 59.5). Open-ended ranges like '65+' were adjusted by adding a constant.
+Soundness Justification: This transformation allows the age range to be treated as a continuous variable for statistical analysis, without losing the context of the age group. Simplifies analysis while maintaining the representation of voters’ age groups. It doesn’t introduce outliers.
 
-**Soundness Justification:** TODO
+Transformation 2 : Income Range Midpoint Conversion
+Description: Income ranges (e.g., "$50,000 to $99,999") were converted to their midpoints (e.g., $74,999.5).
+Soundness Justification: Similarly as age, this allows income to be treated as a continuous variable and providing accurate approximation without any data loss.
 
-(duplicate above as many times as needed; remove this line when done)
+Transformation 3 : Turnout rate conversion
+Description:  Turnout rates, expressed as percentages (e.g., "50.27%"), were converted into decimal form (e.g., 0.5027) for use in computations.
+Soundness Justification: Standard practice, helped in making calculation more straightforward while plotting the visualizations. 
 
+Transformation 4 : Handling missing values
+Description: Rows with missing values in key columns like "Income" and "TurnoutRate" were removed.
+Soundness Justification: This transformation ensures the integrity of the analysis by removing incomplete data that could introduce inaccuracies.
+
+Transformation 5 : Duplicate Row Removal
+Description :  Duplicate rows across all datasets were removed to prevent redundancy.
+Soundness Justification : Ensures quality of data without discarding unique values.
+
+Transformation 6 : Merging DataFrames on State
+Description : The three datasets were merged based on the "State" column, combining demographic, voting, and turnout data into a unified dataset.
+Soundness Justification : essential for integrating related information and conducting comprehensive analysis.This operation is crucial for analysis and does not distort any data.
+
+Transformation 7 : State Name Standardization
+Description : State names were standardized bconverting state abbreviations to full names.
+Soundness Justification : This transformation is essential for correct merging and comparison. It does not alter the underlying meaning of the data and only affects the data formatting
+
+Transformation 8 : State Encoding for Scatter Plots
+Description : State names were encoded numerically to facilitate graphical visualization
+Soundness Justification : This transformation is needed for graphing and does not change the content or meaning of the dataset. 
 
 ## Visualizations
 ### Visual N
