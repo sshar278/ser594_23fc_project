@@ -16,17 +16,37 @@ except subprocess.CalledProcessError as e:
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
+# Ensure that the scripts exist
 dataprocessing_path = os.path.join(base_dir, 'wf_dataprocessing.py')
 visualization_path = os.path.join(base_dir, 'wf_visualization.py')
 
+# Check if the scripts exist at the specified paths
+if not os.path.exists(dataprocessing_path):
+    print(f"Error: {dataprocessing_path} not found.")
+    sys.exit(1)
+
+if not os.path.exists(visualization_path):
+    print(f"Error: {visualization_path} not found.")
+    sys.exit(1)
+
 def main():
-    print("Starting data processing...")
-    subprocess.run(["python", dataprocessing_path])
-    print("Data processing completed.")
     
+    print("Starting data processing...")
+    try:
+        # Using sys.executable ensures we use the current Python interpreter
+        subprocess.run([sys.executable, dataprocessing_path], check=True)
+        print("Data processing completed.")
+    except subprocess.CalledProcessError as e:
+        print("Error during data processing. Error:", e)
+        sys.exit(1)
+
     print("Starting data visualization and analysis...")
-    subprocess.run(["python", visualization_path])
-    print("Data visualization completed.")
+    try:
+        subprocess.run([sys.executable, visualization_path], check=True)
+        print("Data visualization completed.")
+    except subprocess.CalledProcessError as e:
+        print("Error during data visualization. Error:", e)
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
