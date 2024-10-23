@@ -10,7 +10,7 @@
 5. In the terminal, type python wf_core.py. This includes the code to first install all the project dependencies, plus 
 contains the subprocess to run both the wf_dataprocessing.py and then wf_visualization.py. A merged_data.db file will be generated which contains 
 all the processed and cleaned data (this file can be viewed in the sqlite db browser). apart from that, the correlation.txt, summary.txt and the processed data files get stored in the data_processed folder. And finally the visuals get stored inside the visuals folder.
-6. I have added a video demo run of my whole project run, where initially only the original data files, plus the .py files for core,dataprocessing and visualization are present and you can verify through the video that my code is actually producing those results that I will be providing. 
+6. I will be attaching a video demo run of my whole project run, where initially only the original data files, plus the .py files for core,dataprocessing and visualization are present and you can verify through the video that my code is actually producing those results that I will be providing. 
 7. Once you are done, you can type 'deactivate' in the the terminal in order to exit the virtual environment
 
 
