@@ -21,5 +21,15 @@ At this time, this project has not been cleared by the course staff (R. Acuna) f
 
 4. Insted of requirements.txt, I might consider generating a docker file for the requirements, so that once a reviewer runs it, it automatically installs all the required libraries in order to successfully run the project
 
+5. For the machine learning analysis milestone, the following packages are allowed : 
+    Anything available by default on a Python 3.8+ install.
+    Matplotlib,Numpy,Pandas, Requests,BeautifulSoup4,NLTK, OpenCV, Seaborn
+    scikit-learn (sklearn)
+    scipy (scipy)
+    TensorFlow (tensorflow)
+    This means
+    you can use not just the techniques from class (e.g., linear regression, logistic regression, nearest neighbors,clustering, etc) but also techniques not covered (e.g., Random Forest, XGBoost, etc).
+
+
 
 # Steps to run my project are given at the top of the project_exploration.md file
