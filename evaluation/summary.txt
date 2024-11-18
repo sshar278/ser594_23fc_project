@@ -1,0 +1,13 @@
+Model Accuracy: 0.7722007722007722
+
+Classification Report:
+              precision    recall  f1-score   support
+
+    DEMOCRAT       0.86      0.78      0.82       169
+ LIBERTARIAN       0.22      0.06      0.10        78
+       OTHER       0.78      0.95      0.86       398
+  REPUBLICAN       0.72      0.63      0.67       132
+
+    accuracy                           0.77       777
+   macro avg       0.64      0.61      0.61       777
+weighted avg       0.73      0.77      0.74       777

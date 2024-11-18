@@ -1,70 +1,100 @@
-# wf_ml_evaluation.py
-"""
-This script is responsible for splitting the data, training the model, making predictions, and evaluating its performance.
-Steps:
-1. Load processed data and split into training and test sets.
-2. Save the training and test sets for further use.
-3. Train the model by calling functions from the training script.
-4. Use the trained model to make predictions by calling functions from the prediction script.
-5. Evaluate the model's performance using classification metrics.
-6. Save the evaluation report to a text file.
-"""
-
 import os
 import pandas as pd
-from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
-import joblib
+from wf_ml_training import train_random_forest_model
+from wf_ml_prediction import predict_and_save
+from sklearn.metrics import accuracy_score, classification_report
 
-# Paths
-DATA_PROCESSED_PATH = "data_processed/processed_data.csv"
-MODELS_PATH = "models"
-EVALUATION_PATH = "evaluation"
-TRAIN_DATA_FILE = os.path.join(MODELS_PATH, "train_data.csv")
-TEST_DATA_FILE = os.path.join(MODELS_PATH, "test_data.csv")
-MODEL_FILE = os.path.join(MODELS_PATH, "election_rf_model.pkl")
-EVALUATION_REPORT_FILE = os.path.join(EVALUATION_PATH, "evaluation_report.txt")
+DATA_PROCESSED_PATH = 'data_processed'
+DF1_PATH = os.path.join(DATA_PROCESSED_PATH, 'df1_processed.csv')
+DF2_PATH = os.path.join(DATA_PROCESSED_PATH, 'df2_processed.csv')
+DF3_PATH = os.path.join(DATA_PROCESSED_PATH, 'df3_processed.csv')
 
-# Ensure the models and evaluation directories exist
-os.makedirs(MODELS_PATH, exist_ok=True)
-os.makedirs(EVALUATION_PATH, exist_ok=True)
+DF1_TRAIN = os.path.join(DATA_PROCESSED_PATH, 'df1_train.csv')
+DF1_TEST = os.path.join(DATA_PROCESSED_PATH, 'df1_test.csv')
+DF2_TRAIN = os.path.join(DATA_PROCESSED_PATH, 'df2_train.csv')
+DF2_TEST = os.path.join(DATA_PROCESSED_PATH, 'df2_test.csv')
+DF3_TRAIN = os.path.join(DATA_PROCESSED_PATH, 'df3_train.csv')
+DF3_TEST = os.path.join(DATA_PROCESSED_PATH, 'df3_test.csv')
 
-# Load the processed data
-data = pd.read_csv(DATA_PROCESSED_PATH)
+MODEL_SAVE_PATH = 'models/random_forest_model.pkl'
+PREDICTIONS_PATH = 'evaluation/predictions.csv'
+EVALUATION_SUMMARY_PATH = 'evaluation/summary.txt'
 
-# Split data into training and test sets
-X = data.drop(columns=['target'])  # Replace 'target' with the actual target column name
-y = data['target']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Function to shuffle and split data without scaling
+def load_split_data(file_path, train_path, test_path, test_size=0.2, shuffle=True, random_state=0):
+    
+    data = pd.read_csv(file_path)
+    train, test = train_test_split(data, test_size=test_size, shuffle=shuffle, random_state=random_state)
+    
+    if len(test) < 30:
+        raise ValueError(f"The test set for {file_path} has fewer than 30 samples.")
+    
+    # Save training and testing splits
+    train.to_csv(train_path, index=False)
+    test.to_csv(test_path, index=False)
+    print(f"Data from {file_path} split and saved to {train_path} and {test_path}.")
+    
+    
+def evaluate_model(predictions_path, evaluation_summary_path):
+    """
+    Reads the predictions file and evaluates the model.
+    :param predictions_path: Path to the predictions CSV file.
+    :param evaluation_summary_path: Path to save the evaluation summary file.
+    """
+    # Load predictions
+    df_predictions = pd.read_csv(predictions_path)
 
-# Save train and test sets
-train_data = pd.concat([X_train, y_train], axis=1)
-train_data.to_csv(TRAIN_DATA_FILE, index=False)
+    # Extract actual and predicted labels
+    y_test = df_predictions['Actual PartyAffiliation']
+    y_pred = df_predictions['Predicted_PartyAffiliation']
 
-test_data = pd.concat([X_test, y_test], axis=1)
-test_data.to_csv(TEST_DATA_FILE, index=False)
+    # Calculate evaluation metrics
+    accuracy = accuracy_score(y_test, y_pred)
+    class_report = classification_report(y_test, y_pred)
 
-# Train the model
-import wf_ml_training
+    # Save evaluation metrics to file
+    os.makedirs(os.path.dirname(evaluation_summary_path), exist_ok=True)
+    with open(evaluation_summary_path, 'w') as f:
+        f.write(f"Model Accuracy: {accuracy}\n\n")
+        f.write("Classification Report:\n")
+        f.write(class_report)
+    print(f"Evaluation metrics saved to {evaluation_summary_path}")    
+    
+    
+    
+def main():
+    
+    print("Starting the ML Workflow....")
+    
+    # STEP 1: Split the data into training and testing sets.
+    print("Splitting data into training and testing sets...")
+    # Split and shuffle the data
+    load_split_data(DF1_PATH, DF1_TRAIN, DF1_TEST)
+    load_split_data(DF2_PATH, DF2_TRAIN, DF2_TEST)
+    load_split_data(DF3_PATH, DF3_TRAIN, DF3_TEST)
+    print("Data split successfully.")
+    
+    
+    # STEP 2: Train the Random Forest model
+    print("Training Random Forest model...")
+    train_random_forest_model(DF1_TRAIN, DF2_TRAIN, DF3_TRAIN, model_save_path=MODEL_SAVE_PATH)
+    print("Random Forest model trained and saved.")
+    
+    # STEP 3: Generate predictions and save to a file
+    print("Generating predictions...")
+    predict_and_save(MODEL_SAVE_PATH, DF1_TEST, DF2_TEST, DF3_TEST)
+    print("Predictions generated and saved.")
+    
+    # STEP 4: Evaluate the model using the predictions file
+    print("Evaluating the model...")
+    evaluate_model(PREDICTIONS_PATH, EVALUATION_SUMMARY_PATH)
+    print("Model evaluation completed.")
 
-# Load the trained model
-model = joblib.load(MODEL_FILE)
 
-# Make predictions
-import wf_ml_prediction
 
-# Evaluate the model on the test set
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-report = classification_report(y_test, y_pred)
+if __name__ == "__main__":
+    main()
+    
+    
 
-print(f"Model Accuracy: {accuracy}")
-print("Classification Report:\n", report)
-
-# Save the evaluation report to a text file
-with open(EVALUATION_REPORT_FILE, "w") as f:
-    f.write(f"Model Accuracy: {accuracy}\n")
-    f.write("Classification Report:\n")
-    f.write(report)
-
-print(f"Evaluation report saved to {EVALUATION_REPORT_FILE}")
