@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from wf_ml_training import train_random_forest_model
+from sklearn.neighbors import KNeighborsClassifier
 from wf_ml_prediction import predict_and_save
 from sklearn.metrics import accuracy_score, classification_report
 
@@ -19,6 +20,7 @@ DF3_TEST = os.path.join(DATA_PROCESSED_PATH, 'df3_test.csv')
 
 MODEL_SAVE_PATH = 'models/random_forest_model.pkl'
 PREDICTIONS_PATH = 'evaluation/predictions.csv'
+PREDICTIONS_PATH_KNN = 'evaluation/predictions_knn.csv'
 EVALUATION_SUMMARY_PATH = 'evaluation/summary.txt'
 
 # Function to shuffle and split data without scaling
@@ -95,6 +97,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
+
     
     
 
