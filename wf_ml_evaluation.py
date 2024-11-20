@@ -2,9 +2,10 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from wf_ml_training import train_random_forest_model
-from sklearn.neighbors import KNeighborsClassifier
 from wf_ml_prediction import predict_and_save
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, classification_report, f1_score
+import joblib
 
 DATA_PROCESSED_PATH = 'data_processed'
 DF1_PATH = os.path.join(DATA_PROCESSED_PATH, 'df1_processed.csv')
@@ -20,84 +21,119 @@ DF3_TEST = os.path.join(DATA_PROCESSED_PATH, 'df3_test.csv')
 
 MODEL_SAVE_PATH = 'models/random_forest_model.pkl'
 PREDICTIONS_PATH = 'evaluation/predictions.csv'
-PREDICTIONS_PATH_KNN = 'evaluation/predictions_knn.csv'
 EVALUATION_SUMMARY_PATH = 'evaluation/summary.txt'
 
-# Function to shuffle and split data without scaling
+# Function to shuffle and split data
 def load_split_data(file_path, train_path, test_path, test_size=0.2, shuffle=True, random_state=0):
-    
     data = pd.read_csv(file_path)
     train, test = train_test_split(data, test_size=test_size, shuffle=shuffle, random_state=random_state)
-    
     if len(test) < 30:
         raise ValueError(f"The test set for {file_path} has fewer than 30 samples.")
-    
-    # Save training and testing splits
     train.to_csv(train_path, index=False)
     test.to_csv(test_path, index=False)
     print(f"Data from {file_path} split and saved to {train_path} and {test_path}.")
-    
-    
-def evaluate_model(predictions_path, evaluation_summary_path):
-    """
-    Reads the predictions file and evaluates the model.
-    :param predictions_path: Path to the predictions CSV file.
-    :param evaluation_summary_path: Path to save the evaluation summary file.
-    """
-    # Load predictions
-    df_predictions = pd.read_csv(predictions_path)
 
-    # Extract actual and predicted labels
+# Evaluate the random forest model
+def evaluate_model(predictions_path, evaluation_summary_path):
+    df_predictions = pd.read_csv(predictions_path)
     y_test = df_predictions['Actual PartyAffiliation']
     y_pred = df_predictions['Predicted_PartyAffiliation']
 
-    # Calculate evaluation metrics
     accuracy = accuracy_score(y_test, y_pred)
     class_report = classification_report(y_test, y_pred)
 
-    # Save evaluation metrics to file
     os.makedirs(os.path.dirname(evaluation_summary_path), exist_ok=True)
     with open(evaluation_summary_path, 'w') as f:
         f.write(f"Model Accuracy: {accuracy}\n\n")
         f.write("Classification Report:\n")
         f.write(class_report)
-    print(f"Evaluation metrics saved to {evaluation_summary_path}")    
-    
-    
-    
+    print(f"Evaluation metrics saved to {evaluation_summary_path}")
+
+# Train and evaluate KNN models for k =3, 5, 7
+def train_and_evaluate_knn(k_values, df1_train_path, df2_train_path, df3_train_path, df1_test_path, df2_test_path, df3_test_path):
+    df1_train = pd.read_csv(df1_train_path)
+    df2_train = pd.read_csv(df2_train_path)
+    df3_train = pd.read_csv(df3_train_path)
+    df_train = df2_train.merge(df1_train, on="State", how="left").merge(df3_train, on=["State", "Year"], how="left").dropna()
+
+    df1_test = pd.read_csv(df1_test_path)
+    df2_test = pd.read_csv(df2_test_path)
+    df3_test = pd.read_csv(df3_test_path)
+    df_test = df2_test.merge(df1_test, on="State", how="left").merge(df3_test, on=["State", "Year"], how="left").dropna()
+
+    label_encoders = {
+        'PartyAffiliation': joblib.load("models/PartyAffiliation_encoder.pkl"),
+        'Ethnicity': joblib.load("models/Ethnicity_encoder.pkl"),
+        'Education': joblib.load("models/Education_encoder.pkl")
+    }
+
+    for df in [df_train, df_test]:
+        df['Ethnicity'] = label_encoders['Ethnicity'].transform(df['Ethnicity'])
+        df['Education'] = label_encoders['Education'].transform(df['Education'])
+        df['PartyAffiliation'] = label_encoders['PartyAffiliation'].transform(df['PartyAffiliation'])
+
+    features = ['Age', 'Income', 'CandidateVotes', 'TotalVotes', 'TurnoutRate', 'Ethnicity', 'Education']
+    target = 'PartyAffiliation'
+
+    X_train = df_train[features]
+    y_train = df_train[target]
+    X_test = df_test[features]
+    y_test = df_test[target]
+
+    results = []
+    for k in k_values:
+        knn_model = KNeighborsClassifier(n_neighbors=k)
+        knn_model.fit(X_train, y_train)
+        y_pred = knn_model.predict(X_test)
+
+        y_pred_decoded = label_encoders['PartyAffiliation'].inverse_transform(y_pred)
+        y_test_decoded = label_encoders['PartyAffiliation'].inverse_transform(y_test)
+
+        accuracy = accuracy_score(y_test_decoded, y_pred_decoded)
+        f1 = f1_score(y_test_decoded, y_pred_decoded, average='weighted')
+        results.append((k, accuracy, f1))
+
+        predictions_path_knn = f"evaluation/predictions_knn_k{k}.csv"
+        os.makedirs(os.path.dirname(predictions_path_knn), exist_ok=True)
+        df_test['Predicted_PartyAffiliation'] = y_pred_decoded
+        df_test['Actual PartyAffiliation'] = y_test_decoded
+        df_test.to_csv(predictions_path_knn, index=False)
+        print(f"KNN predictions saved to {predictions_path_knn}")
+
+    return results
+
 def main():
-    
     print("Starting the ML Workflow....")
-    
-    # STEP 1: Split the data into training and testing sets.
     print("Splitting data into training and testing sets...")
-    # Split and shuffle the data
     load_split_data(DF1_PATH, DF1_TRAIN, DF1_TEST)
     load_split_data(DF2_PATH, DF2_TRAIN, DF2_TEST)
     load_split_data(DF3_PATH, DF3_TRAIN, DF3_TEST)
     print("Data split successfully.")
-    
-    
-    # STEP 2: Train the Random Forest model
+
     print("Training Random Forest model...")
     train_random_forest_model(DF1_TRAIN, DF2_TRAIN, DF3_TRAIN, model_save_path=MODEL_SAVE_PATH)
     print("Random Forest model trained and saved.")
-    
-    # STEP 3: Generate predictions and save to a file
-    print("Generating predictions...")
+
+    print("Generating predictions for the random forest model...")
     predict_and_save(MODEL_SAVE_PATH, DF1_TEST, DF2_TEST, DF3_TEST)
     print("Predictions generated and saved.")
-    
-    # STEP 4: Evaluate the model using the predictions file
-    print("Evaluating the model...")
+
+    print("Evaluating the model random forest model...")
     evaluate_model(PREDICTIONS_PATH, EVALUATION_SUMMARY_PATH)
     print("Model evaluation completed.")
 
-
+    print("Training and evaluating KNN models...")
+    k_values = [3, 5, 7]
+    knn_results = train_and_evaluate_knn(k_values, DF1_TRAIN, DF2_TRAIN, DF3_TRAIN, DF1_TEST, DF2_TEST, DF3_TEST)
+    for k, acc, f1 in knn_results:
+        with open(EVALUATION_SUMMARY_PATH, 'a') as f:
+            f.write(f"KNN (k={k}) -> Accuracy: {acc:.4f}, F1 Score: {f1:.4f}\n")
 
 if __name__ == "__main__":
     main()
-    
+
+   
+
 
     
     

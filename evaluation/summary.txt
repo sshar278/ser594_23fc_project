@@ -11,3 +11,6 @@ Classification Report:
     accuracy                           0.76       777
    macro avg       0.67      0.59      0.60       777
 weighted avg       0.73      0.76      0.73       777
+KNN (k=3) -> Accuracy: 0.6435, F1 Score: 0.6270
+KNN (k=5) -> Accuracy: 0.6448, F1 Score: 0.6303
+KNN (k=7) -> Accuracy: 0.6564, F1 Score: 0.6368
