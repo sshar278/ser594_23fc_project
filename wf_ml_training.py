@@ -55,4 +55,12 @@ def train_random_forest_model(df1_path, df2_path, df3_path, model_save_path='mod
     # Save the trained model to the specified path
     joblib.dump(rf_classifier, model_save_path)
     print(f"Random Forest Model saved to {model_save_path}")
+    
+     # Extract feature importances
+    feature_importances = rf_classifier.feature_importances_
+    importance_path = 'evaluation/feature_importances.csv'
+    pd.DataFrame({'Feature': features, 'Importance': feature_importances}).to_csv(importance_path, index=False)
+    print(f"Feature importances saved to {importance_path}")
+
+    return feature_importances
 

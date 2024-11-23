@@ -44,13 +44,14 @@ def evaluate_model(predictions_path, evaluation_summary_path):
 
     accuracy = accuracy_score(y_test, y_pred)
     class_report = classification_report(y_test, y_pred)
-
+   
     os.makedirs(os.path.dirname(evaluation_summary_path), exist_ok=True)
     with open(evaluation_summary_path, 'w') as f:
         f.write("Evaluation Metrics for Random Forest Model\n")
         f.write(f"Model Accuracy: {accuracy}\n\n")
         f.write("Classification Report:\n")
         f.write(class_report)
+        f.write("\n")
         f.write("\n")
     print(f"Evaluation metrics saved to {evaluation_summary_path}")
 
@@ -134,6 +135,8 @@ def main():
         with open(EVALUATION_SUMMARY_PATH, 'a') as f:
             f.write(f"KNN (k={k}) -> Accuracy: {acc:.4f}, F1 Score: {f1:.4f}\n")
             
+    print("Generating visualizations...")        
+            
     # Visual 1 : Model Performance Comparison (Accuracy and F1-Score) for all models
     models = ['Random Forest', 'KNN (k=3)', 'KNN (k=5)', 'KNN (k=7)']
     accuracy = [0.7645, 0.6435, 0.6448, 0.6564]
@@ -143,25 +146,24 @@ def main():
     plt.title('Model Performance Comparison (Accuracy and F1-Score)')
     plt.ylabel('Score')
     plt.legend(loc='lower right')
-    plt.savefig('visuals/model_comparison.png')
+    plt.savefig('visuals/model_comparison_f1vsAccuracy.png')
     
-    # Visual 2 : Feature Importance (Random Forest Classifier) - TODO: Update with actual feature importance
+    # Visual 2 : Feature Importance (Random Forest Classifier)
     features = ['Turnout Rate', 'Ethnicity', 'Education', 'Candidate Votes', 'Total Votes', 'Age', 'Income']
-    importance = [0.3, 0.05, 0.07, 0.25, 0.15, 0.1, 0.08]
+    importance = [0.127159699394538, 0.007856609425618208, 0.016764008059805907, 0.6529026154425202, 0.1689909065781081, 0.014496068577102532, 0.011830092522307132]
     plt.figure(figsize=(10, 6))
     plt.barh(features, importance, color='skyblue')
     plt.xlabel('Feature Importance')
     plt.title('Feature Importance (Random Forest Classifier)')
     plt.gca().invert_yaxis()
-    plt.grid(axis='x', linestyle='--', linewidth=0.5)
     plt.tight_layout()
-    plt.show()
+    plt.savefig('visuals/feature_importance_rf.png')
 
-    # Visual 3 : Confusion Matrix (Random Forest Classifier) - TODO: Update with actual confusion matrix
-    cm_rf = np.array([[120, 10, 20, 19], 
-                    [15, 6, 35, 22], 
-                    [8, 5, 380, 5], 
-                    [18, 12, 21, 81]])
+    # Visual 3 : Confusion Matrix (Random Forest Classifier)
+    cm_rf = np.array([[ 80,  28,  24,   0],
+                      [  1, 388,   0,   9],
+                      [ 44,   5, 120,   0],
+                      [  0,  72,   0,   6]])
     classes = ['DEMOCRAT', 'LIBERTARIAN', 'OTHER', 'REPUBLICAN']
 
     plt.figure(figsize=(8, 8))
@@ -169,10 +171,9 @@ def main():
     disp.plot(cmap='Blues', values_format='d', ax=plt.gca())
     plt.title('Confusion Matrix (Random Forest Classifier)')
     plt.tight_layout()
-    plt.show()
+    plt.savefig('visuals/confusion_matrix_rf.png')
 
-
-        
+    print("Visualizations generated successfully and saved to visuals folder")
 
 if __name__ == "__main__":
     main()
