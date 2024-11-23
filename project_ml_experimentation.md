@@ -1,7 +1,10 @@
 #### SERX94: Experimentation
-#### TODO (title)
-#### TODO (author)
-#### TODO (date)
+
+**Title** : VoteSense : Data-Driven Election Forecasting
+
+**Author** : Siddharth Sharma
+
+**Date** : 25th November, 2024
 
 
 ## Explainable Records
