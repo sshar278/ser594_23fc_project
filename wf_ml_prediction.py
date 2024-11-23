@@ -56,8 +56,6 @@ def predict_and_save(model_path, df1_test_path, df2_test_path, df3_test_path, in
     df_combined_test.to_csv(predictions_path, index=False)
     print(f"Predictions saved to {predictions_path}")
     
-    print(f"Number of predictions: {df_combined_test.shape[0]}")
-    
     if input_data:
         input_df = pd.DataFrame([input_data])
         # Encode the input using the same encoders

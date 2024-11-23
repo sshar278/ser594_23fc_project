@@ -33,7 +33,7 @@ def load_split_data(file_path, train_path, test_path, test_size=0.2, shuffle=Tru
     test.to_csv(test_path, index=False)
     print(f"Data from {file_path} split and saved to {train_path} and {test_path}.")
 
-# Evaluate the random forest model
+# Evaluate the random forest model : Function to compute evaluation metrics
 def evaluate_model(predictions_path, evaluation_summary_path):
     df_predictions = pd.read_csv(predictions_path)
     y_test = df_predictions['Actual PartyAffiliation']
@@ -44,9 +44,11 @@ def evaluate_model(predictions_path, evaluation_summary_path):
 
     os.makedirs(os.path.dirname(evaluation_summary_path), exist_ok=True)
     with open(evaluation_summary_path, 'w') as f:
+        f.write("Evaluation Metrics for Random Forest Model\n")
         f.write(f"Model Accuracy: {accuracy}\n\n")
         f.write("Classification Report:\n")
         f.write(class_report)
+        f.write("\n")
     print(f"Evaluation metrics saved to {evaluation_summary_path}")
 
 # Train and evaluate KNN models for k =3, 5, 7

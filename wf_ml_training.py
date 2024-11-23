@@ -4,8 +4,13 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.utils.class_weight import compute_class_weight
 from sklearn.preprocessing import LabelEncoder
+
+# I was eariler planning to use XgBoost with hyperparameter tuning
+# However, I am using RandomForestClassifier for simplicity
+
 # from sklearn.model_selection import GridSearchCV, train_test_split
 # import xgboost as xgb
+
 import joblib
 
 def train_random_forest_model(df1_path, df2_path, df3_path, model_save_path='models/random_forest_model.pkl'):
