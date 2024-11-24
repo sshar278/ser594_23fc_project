@@ -2,12 +2,9 @@
 
 **Title** : VoteSense : Data-Driven Election Forecasting
 
-
 **Author** : Siddharth Sharma
 
-
 **Date** : 25th November, 2024
-
 
 ## Explainable Records
 From the predictions for the ActualPartyAffiliation computed in the predictions.csv file present in evaluation, I have selected the following two records and explained why the predicted output is correct in terms of the domain knowledge. 
@@ -54,17 +51,18 @@ RO4: Explores the relationship between education, income, and voter turnout, ill
 
 ## Interesting Features
 ### Feature A
-**Feature:** TODO
-
-**Justification:** TODO
+**Feature:** Candidate Votes
+**Justification:** Candidate votes, which indicate a candidate's total number of votes, are a key determinant of electoral success. It is essential for predicting results because, from a domain perspective, it captures past voting trends and regional party strength. This characteristic is essential to the model since it offers a robust, numerical indication of voter preferences.
 
 ### Feature B
-**Feature:** TODO
+**Feature:** Turnout Rate
+**Justification:** The percentage of eligible voters who cast ballots in an election is known as the turnout rate. Since differences in turnout frequently correspond with voter participation and the popularity of politicians or policies, it is a crucial feature. The dynamics of electoral participation, which have a major influence on election outcomes and party success, are reflected in the turnout rate from a domain viewpoint. This feature provides more context for comprehending the predictions made by the model.
 
-**Justification:** TODO
 
 ## Experiments 
-### Varying A
+Feature A: Candidate Votes, Feature B: Turnout Rate
+
+### Varying A 
 **Prediction Trend Seen:** TODO
 
 ### Varying B
@@ -72,7 +70,6 @@ RO4: Explores the relationship between education, income, and voter turnout, ill
 
 ### Varying A and B together
 **Prediction Trend Seen:** TODO
-
 
 ### Varying A and B inversely
 **Prediction Trend Seen:** TODO
