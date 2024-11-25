@@ -60,18 +60,18 @@ RO4: Explores the relationship between education, income, and voter turnout, ill
 
 
 ## Experiments 
-Feature A: Candidate Votes, Feature B: Turnout Rate
+Feature A: Candidate Votes, Feature B: Turnout Rate 
+**Note** : For this task, I wrote a function experiment_with_features in wf_ml_evaluation.py, and for checking the trend, I took 4 varied test samples in order to discover the different trends by varying A and B
 
 ### Varying A 
-**Prediction Trend Seen:** TODO
+**Prediction Trend Seen:** Changing While lower values tended toward minority parties like LIBERTARIAN or OTHER, CandidateVotes showed a strong association between higher vote counts and predictions for majority parties like DEMOCRAT or REPUBLICAN. Given that CandidateVotes represents candidate popularity, a crucial indicator of party identification, this is consistent with domain knowledge. The high relevance of this characteristic indicates how dependent the model is on it, yet other factors like TurnoutRate and area demography mitigate forecasts. For example, even moderate vote counts produced majority party projections in areas with high historical party dominance, illustrating the model's sophisticated management of contextual effects.
 
 ### Varying B
-**Prediction Trend Seen:** TODO
+**Prediction Trend Seen:** In contrast to CandidateVotes, altering TurnoutRate alone showed more robust and dynamic forecast adjustments. In Sample 3, expectations supporting DEMOCRAT were linked to lower TurnoutRate values, while intermediate rates swung toward REPUBLICAN and higher rates returned to DEMOCRAT. As TurnoutRate rose, Sample 4's forecasts changed from LIBERTARIAN to OTHER. This suggests that TurnoutRate is a crucial aspect for assessing results since it records participation trends connected to demographic and geographic contexts.
 
 ### Varying A and B together
-**Prediction Trend Seen:** TODO
+**Prediction Trend Seen:**  Interesting dynamics were brought to light by the combined influence of CandidateVotes and TurnoutRate when they were modified in a coordinated manner. As both traits grew for Sample 1, the predictions first changed from OTHER at lower values to LIBERTARIAN. Likewise, for Sample 3, LIBERTARIAN predictions were supported by intermediate correlations, while OTHER was restored by high results. These patterns highlight the significance of researching feature dependencies by indicating that the combined effect of CandidateVotes and TurnoutRate may increase or decrease their separate effects.
 
 ### Varying A and B inversely
-**Prediction Trend Seen:** TODO
+**Prediction Trend Seen:** A complicated interplay between the features was revealed by inversely correlating CandidateVotes and TurnoutRate, where the impact of one feature frequently offset the decline of the other. With the exception of a few shifts to LIBERTARIAN when TurnoutRate was noticeably higher, Sample 1's forecasts mostly stayed OTHER. Predictions for Sample 4 changed from LIBERTARIAN to OTHER when CandidateVotes rose and TurnoutRate fell. These findings demonstrate how these features' inverse connection produces a balancing dynamic, implying that changes in one feature may be counteracted by thresholds of the other.
 
-(duplicate above as many times as needed; remove this line when done)
