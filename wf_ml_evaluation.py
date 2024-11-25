@@ -108,6 +108,120 @@ def train_and_evaluate_knn(k_values, df1_train_path, df2_train_path, df3_train_p
 
     return results
 
+def experiment_with_features(model_path, features, encoder_path):
+    model = joblib.load(model_path)
+    label_encoder = joblib.load(encoder_path)  # Load the label encoder
+    print("Model and Label Encoder loaded for experimentation.")
+
+    # Representative samples from predictions.csv
+    base_samples = [
+        {
+            'State': 'Kentucky',
+            'Year': 2010,
+            'CandidateVotes': 755706,
+            'TotalVotes': 1356096,
+            'PartyAffiliation': 'REPUBLICAN',
+            'Age': 70.0,
+            'Income': 124999.5,
+            'Ethnicity': 4,
+            'Education': 2,
+            'TurnoutRate': 0.445
+        },
+        {
+            'State': 'Arizona',
+            'Year': 2000,
+            'CandidateVotes': 108926,
+            'TotalVotes': 1397076,
+            'PartyAffiliation': 'OTHER',
+            'Age': 59.5,
+            'Income': 62499.5,
+            'Ethnicity': 4,
+            'Education': 4,
+            'TurnoutRate': 0.4637
+        },
+        {
+            'State': 'Florida',
+            'Year': 2000,
+            'CandidateVotes': 2989487,
+            'TotalVotes': 5856731,
+            'PartyAffiliation': 'DEMOCRAT',
+            'Age': 70.0,
+            'Income': 124999.5,
+            'Ethnicity': 4,
+            'Education': 2,
+            'TurnoutRate': 0.5605
+        },
+        {
+            'State': 'Indiana',
+            'Year': 2000,
+            'CandidateVotes': 33992,
+            'TotalVotes': 2145209,
+            'PartyAffiliation': 'LIBERTARIAN',
+            'Age': 29.5,
+            'Income': 87499.5,
+            'Ethnicity': 1,
+            'Education': 4,
+            'TurnoutRate': 0.5102
+        }
+    ]
+
+    results = []
+
+    for i, base_sample in enumerate(base_samples, start=1):
+        print(f"Experimenting with Base Sample {i}: {base_sample}")
+        
+        # Experiment 1: Vary Candidate Votes
+        print("Varying Candidate Votes...")
+        for candidate_votes in range(10000, 110000, 10000):
+            sample = base_sample.copy()
+            sample['CandidateVotes'] = candidate_votes
+
+            # Ensure only features are passed to the model
+            feature_sample = {key: sample[key] for key in features}
+            prediction_encoded = model.predict(pd.DataFrame([feature_sample]))[0]
+            prediction_decoded = label_encoder.inverse_transform([prediction_encoded])[0]
+            results.append((candidate_votes, sample['TurnoutRate'], prediction_decoded, f"Sample {i}"))
+
+        # Experiment 2: Vary Turnout Rate
+        print("Varying Turnout Rate...")
+        for turnout_rate in [x / 100 for x in range(10, 100, 10)]:
+            sample = base_sample.copy()
+            sample['TurnoutRate'] = turnout_rate
+
+            # Ensure only features are passed to the model
+            feature_sample = {key: sample[key] for key in features}
+            prediction_encoded = model.predict(pd.DataFrame([feature_sample]))[0]
+            prediction_decoded = label_encoder.inverse_transform([prediction_encoded])[0]
+            results.append((sample['CandidateVotes'], turnout_rate, prediction_decoded, f"Sample {i}"))
+
+        # Experiment 3: Vary Candidate Votes and Turnout Rate Together (Correlated)
+        print("Varying Candidate Votes and Turnout Rate Together (Correlated)...")
+        for candidate_votes, turnout_rate in zip(range(10000, 110000, 10000), [x / 100 for x in range(10, 100, 10)]):
+            sample = base_sample.copy()
+            sample['CandidateVotes'] = candidate_votes
+            sample['TurnoutRate'] = turnout_rate
+
+            # Ensure only features are passed to the model
+            feature_sample = {key: sample[key] for key in features}
+            prediction_encoded = model.predict(pd.DataFrame([feature_sample]))[0]
+            prediction_decoded = label_encoder.inverse_transform([prediction_encoded])[0]
+            results.append((candidate_votes, turnout_rate, prediction_decoded, f"Sample {i} (Correlated)"))
+
+        # Experiment 4: Vary Candidate Votes and Turnout Rate Together (Inversely Correlated)
+        print("Varying Candidate Votes and Turnout Rate Together (Inversely Correlated)...")
+        for candidate_votes, turnout_rate in zip(range(10000, 110000, 10000), reversed([x / 100 for x in range(10, 100, 10)])):
+            sample = base_sample.copy()
+            sample['CandidateVotes'] = candidate_votes
+            sample['TurnoutRate'] = turnout_rate
+
+            # Ensure only features are passed to the model
+            feature_sample = {key: sample[key] for key in features}
+            prediction_encoded = model.predict(pd.DataFrame([feature_sample]))[0]
+            prediction_decoded = label_encoder.inverse_transform([prediction_encoded])[0]
+            results.append((candidate_votes, turnout_rate, prediction_decoded, f"Sample {i} (Inversely Correlated)"))
+
+    return results
+
 def main():
     print("Starting the ML Workflow....")
     print("Splitting data into training and testing sets...")
@@ -174,7 +288,14 @@ def main():
     plt.savefig('visuals/confusion_matrix_rf.png')
 
     print("Visualizations generated successfully and saved to visuals folder")
-
+    
+    model_path = 'models/random_forest_model.pkl'
+    encoder_path = 'models/PartyAffiliation_encoder.pkl'
+    features = ['Age', 'Income', 'CandidateVotes', 'TotalVotes', 'TurnoutRate', 'Ethnicity', 'Education']
+    results = experiment_with_features(model_path, features, encoder_path)
+    for r in results:
+        print(f"Candidate Votes: {r[0]}, Turnout Rate: {r[1]}, Predicted Party Affiliation: {r[2]}, Sample: {r[3]}")
+        
 if __name__ == "__main__":
     main()
 
