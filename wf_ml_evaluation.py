@@ -176,7 +176,6 @@ def experiment_with_features(model_path, features, encoder_path):
             sample = base_sample.copy()
             sample['CandidateVotes'] = candidate_votes
 
-            # Ensure only features are passed to the model
             feature_sample = {key: sample[key] for key in features}
             prediction_encoded = model.predict(pd.DataFrame([feature_sample]))[0]
             prediction_decoded = label_encoder.inverse_transform([prediction_encoded])[0]
@@ -188,7 +187,6 @@ def experiment_with_features(model_path, features, encoder_path):
             sample = base_sample.copy()
             sample['TurnoutRate'] = turnout_rate
 
-            # Ensure only features are passed to the model
             feature_sample = {key: sample[key] for key in features}
             prediction_encoded = model.predict(pd.DataFrame([feature_sample]))[0]
             prediction_decoded = label_encoder.inverse_transform([prediction_encoded])[0]
@@ -201,7 +199,6 @@ def experiment_with_features(model_path, features, encoder_path):
             sample['CandidateVotes'] = candidate_votes
             sample['TurnoutRate'] = turnout_rate
 
-            # Ensure only features are passed to the model
             feature_sample = {key: sample[key] for key in features}
             prediction_encoded = model.predict(pd.DataFrame([feature_sample]))[0]
             prediction_decoded = label_encoder.inverse_transform([prediction_encoded])[0]
@@ -214,7 +211,6 @@ def experiment_with_features(model_path, features, encoder_path):
             sample['CandidateVotes'] = candidate_votes
             sample['TurnoutRate'] = turnout_rate
 
-            # Ensure only features are passed to the model
             feature_sample = {key: sample[key] for key in features}
             prediction_encoded = model.predict(pd.DataFrame([feature_sample]))[0]
             prediction_decoded = label_encoder.inverse_transform([prediction_encoded])[0]
