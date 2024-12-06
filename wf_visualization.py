@@ -1,6 +1,7 @@
 import pandas as pd
 import sqlite3
 import matplotlib.pyplot as plt
+import seaborn as sns   
 import numpy as np
 import os
 
@@ -173,3 +174,32 @@ plt.tight_layout(pad=2)
 plt.savefig(os.path.join(visuals_dir, 'histogram_ethnicity.png'))
 
 print("Scatter plots and histograms saved in the 'visuals' folder.")
+
+#Generate additional visualizations which were included in the final papaer due to better representation of the data
+# Plot 1: Boxplot for Age vs TurnoutRate by State
+plt.figure(figsize=(12, 6))
+sns.boxplot(x='State', y='TurnoutRate', data=merged_df, palette="Set3")
+plt.title('Age vs Turnout Rate by State')
+plt.xlabel('State')
+plt.ylabel('Turnout Rate')
+plt.xticks(rotation=90)
+plt.tight_layout()
+boxplot_age_turnout_state_path = os.path.join(visuals_dir, 'boxplot_age_vs_turnout_by_state.png')
+plt.savefig(boxplot_age_turnout_state_path)
+plt.close()
+
+# Plot 2: 3D Scatter Plot (Age, Income, and TurnoutRate)
+fig = plt.figure(figsize=(12, 9))
+ax = fig.add_subplot(111, projection='3d')
+scatter = ax.scatter(merged_df['Age'], merged_df['Income'], merged_df['TurnoutRate'], 
+                     c=merged_df['TurnoutRate'], cmap='viridis', s=50)
+ax.set_xlabel('Age')
+ax.set_ylabel('Income')
+ax.set_zlabel('TurnoutRate')
+ax.set_title('3D Scatter: Age, Income, and TurnoutRate')
+fig.colorbar(scatter, ax=ax, label='Turnout Rate')
+scatter_3d_path = os.path.join(visuals_dir, '3d_age_income_turnout.png')
+plt.savefig(scatter_3d_path)
+plt.close()
+
+print("Visualizations have been saved successfully in the 'visuals' folder.")
