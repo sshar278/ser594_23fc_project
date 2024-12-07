@@ -3,6 +3,9 @@ This repository contains files for the individual course project in COURSE SER59
 
 At this time, this project has not been cleared by the course staff (R. Acuna) for public release, and must be kept within a private repository. 
 
+# NOTE : Here is the drive link to my random_forest_model.pkl file (I could not commit and push it to github due to its large file size ~150 MB, although this will be dynamically generated everytime you run your workflow) 
+https://drive.google.com/file/d/1dr2Ze9fuJ_AJsb9KmkedsNZkDYtXGyDM/view?usp=sharing
+
 # Some side notes for my personal reference :  
 
 1. Command to generate the requirements.txt file : pipreqs . --force 
