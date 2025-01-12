@@ -1,7 +1,7 @@
 ﻿# Introduction
 This repository contains files for the individual course project in COURSE SER594: Data Science for Software Engineers (fall 2024) created by ANONYMOUS for partial fulfillment of the course requirements.
 
-At this time, this project has not been cleared by the course staff (R. Acuna) for public release, and must be kept within a private repository. 
+It was cleared by course staff (R. Acuna) for public release on 1/12/2024. 
 
 # NOTE : Here is the drive link to my random_forest_model.pkl file (I could not commit and push it to github due to its large file size ~150 MB, although this will be dynamically generated everytime you run your workflow) 
 https://drive.google.com/file/d/1dr2Ze9fuJ_AJsb9KmkedsNZkDYtXGyDM/view?usp=sharing
